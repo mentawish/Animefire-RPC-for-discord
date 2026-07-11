@@ -1,107 +1,184 @@
-
-
 # 🔥 AnimeFire Discord RPC
 
-Automatic Rich Presence for Discord while watching anime on AnimeFire.io.
+Rich Presence automático para o Discord enquanto você assiste animes no AnimeFire.io.
 
-Shows: anime title, episode, real-time progress bar, play/pause icon, and quick access buttons.
+Exibe:
+- 🎬 Título do anime
+- 📺 Episódio atual
+- ⏱️ Barra de progresso em tempo real
+- ▶️⏸️ Ícone de reprodução/pausa
+- 🔗 Botões de acesso rápido
 
 ---
 
-## 📦 Structure
+# 📦 Estrutura do Projeto
 
-```
+```text
 animefire-rpc/
-├── extension/          ← Chrome extension
+├── extension/          ← Extensão para Chrome
 │   ├── manifest.json
-│   ├── content.js      ← Captures player data
-│   ├── background.js   ← Sends to Python server
-│   ├── popup.html/js   ← Extension interface
-│   └── icons/          ← Add icons here (16, 48, 128px)
+│   ├── content.js      ← Captura as informações do player
+│   ├── background.js   ← Envia os dados para o servidor Python
+│   ├── popup.html/js   ← Interface da extensão
+│   └── icons/          ← Adicione os ícones (16, 48 e 128px)
 └── python/
-    └── rpc.py          ← Local server + Discord RPC
+    └── rpc.py          ← Servidor local + Discord RPC
 ```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Instalação
 
-### 1. Get the Client ID
+## 1. Obtenha o Client ID
 
-1. Go to [discord.com/developers/applications](https://discord.com/developers/applications)
-2. Create a new application (e.g., "AnimeFire")
-3. Copy the **Application ID** from the *General Information* tab
-4. In **Rich Presence → Art Assets**, upload the images:
+Acesse:
 
-   * `logo_xeon` — large icon
-   * `play_icon` — play icon
-   * `pause_icon` — pause icon
+https://discord.com/developers/applications
 
-### 2. Configure the Python script
+Depois:
 
-Open `python/rpc.py` and edit the line:
+1. Crie uma nova aplicação (ex.: **AnimeFire**)
+2. Copie o **Application ID** na aba **General Information**
+3. Em **Rich Presence → Art Assets**, envie as seguintes imagens:
+
+- `logo_xeon` → Ícone principal
+- `play_icon` → Ícone de reprodução
+- `pause_icon` → Ícone de pausa
+
+---
+
+## 2. Configure o script Python
+
+Abra o arquivo:
 
 ```python
-CLIENT_ID = "SEU_CLIENT_ID_AQUI"  # Paste your Application ID here
+python/rpc.py
 ```
 
-### 3. Install Python dependencies
+Edite a linha:
+
+```python
+CLIENT_ID = "SEU_CLIENT_ID_AQUI"
+```
+
+Substitua pelo **Application ID** da sua aplicação no Discord.
+
+---
+
+## 3. Instale as dependências
 
 ```bash
 pip install pypresence flask flask-cors
 ```
 
-### 4. Run the server
+---
+
+## 4. Inicie o servidor
 
 ```bash
 python python/rpc.py
 ```
 
-Keep this terminal open while watching.
-
-### 5. Install the Chrome extension
-
-1. Open `chrome://extensions/`
-2. Enable **Developer mode** (top right corner)
-3. Click **Load unpacked**
-4. Select the `extension/` folder
-
-### 6. Add icons (optional but recommended)
-
-Place 3 PNG files in the `extension/icons/` folder:
-
-* `icon16.png` (16×16)
-* `icon48.png` (48×48)
-* `icon128.png` (128×128)
-
-If you don’t have them, you can remove the `icons` references from `manifest.json`.
+Mantenha este terminal aberto enquanto estiver assistindo.
 
 ---
 
-## 🚀 How to use
+## 5. Instale a extensão no Chrome
 
-1. Run `python rpc.py` in the terminal
-2. Open Chrome with the extension installed
-3. Access any episode on AnimeFire.io
-4. The RPC updates automatically on Discord!
+1. Abra:
 
-The extension icon shows:
+```
+chrome://extensions/
+```
 
-* 🟢 Green = connected to Python server
-* 🔴 Red = Python server is not running
+2. Ative o **Modo do Desenvolvedor**
+3. Clique em **Carregar sem compactação**
+4. Selecione a pasta:
+
+```
+extension/
+```
 
 ---
 
-## ❓ Common issues
+## 6. Adicione os ícones (Opcional)
 
-**"Discord not found"**
-→ Open Discord before running the script.
+Coloque estes arquivos na pasta:
 
-**Red icon in the extension**
-→ The Python server is not running. Run `python rpc.py`.
+```
+extension/icons/
+```
 
-**Data not showing**
-→ AnimeFire may have changed HTML selectors. Open DevTools (F12) on AnimeFire, inspect the player, and update selectors in `content.js`.
+Arquivos necessários:
 
-**Progress bar not showing**
-→ Normal if the video is paused. The bar only appears while the video is playing (Discord RPC limitation).
+- `icon16.png` (16×16)
+- `icon48.png` (48×48)
+- `icon128.png` (128×128)
+
+Caso não tenha os ícones, basta remover as referências a eles do arquivo `manifest.json`.
+
+---
+
+# 🚀 Como usar
+
+1. Execute:
+
+```bash
+python python/rpc.py
+```
+
+2. Abra o Chrome com a extensão instalada.
+
+3. Acesse qualquer episódio no AnimeFire.io.
+
+Pronto! O Rich Presence será atualizado automaticamente no Discord.
+
+---
+
+# 🟢 Status da extensão
+
+O ícone da extensão indica o estado da conexão:
+
+🟢 **Verde** → Conectado ao servidor Python.
+
+🔴 **Vermelho** → O servidor Python não está em execução.
+
+---
+
+# ❓ Problemas comuns
+
+### Discord não encontrado
+
+Abra o Discord antes de iniciar o script Python.
+
+---
+
+### Ícone vermelho na extensão
+
+O servidor Python não está sendo executado.
+
+Inicie-o com:
+
+```bash
+python python/rpc.py
+```
+
+---
+
+### As informações não aparecem
+
+O AnimeFire pode ter alterado a estrutura da página.
+
+Pressione **F12**, inspecione o player de vídeo e atualize os seletores utilizados no arquivo:
+
+```
+content.js
+```
+
+---
+
+### A barra de progresso não aparece
+
+Isso é normal quando o vídeo está pausado.
+
+A barra de progresso só é exibida enquanto o vídeo estiver em reprodução, devido a uma limitação do Discord Rich Presence.
