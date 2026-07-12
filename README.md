@@ -182,3 +182,11 @@ content.js
 Isso é normal quando o vídeo está pausado.
 
 A barra de progresso só é exibida enquanto o vídeo estiver em reprodução, devido a uma limitação do Discord Rich Presence.
+
+---
+
+<div align="center">
+
+Feito com 💜 por **[mentawish](https://github.com/mentawish)**
+
+</div>
